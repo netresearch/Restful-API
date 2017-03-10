@@ -1,22 +1,13 @@
-![Docker Compose UI](https://raw.githubusercontent.com/francescou/docker-compose-ui/master/static/images/logo-dark.png)
-
-[![Docker Stars](https://img.shields.io/docker/stars/francescou/docker-compose-ui.svg)](https://hub.docker.com/r/francescou/docker-compose-ui/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/francescou/docker-compose-ui.svg)](https://hub.docker.com/r/francescou/docker-compose-ui/)
+Docker & Docker Compose Restful API
+====
 
 ## What is it
 
-Docker Compose UI is a web interface for Docker Compose.
+A restful API service for Docker Compose.
 
-The aim of this project is to provide a minimal HTTP API on top of Docker Compose while maintaining full interoperability with Docker Compose CLI.
+Base on [francescou/docker-compose-ui](https://github.com/francescou/docker-compose-ui)
 
-The application can be deployed as a single container, there are no dependencies nor databases to install.
-
-![screenshot project detail](https://raw.githubusercontent.com/francescou/docker-compose-ui/master/screenshots/project-detail.png)
-
-![screenshot project wizard](https://raw.githubusercontent.com/francescou/docker-compose-ui/master/screenshots/project-wizard.png)
-
-![screenshot project logs](https://raw.githubusercontent.com/francescou/docker-compose-ui/master/screenshots/logs.png)
-
+[RESTful API documentation](https://francescou.github.io/docker-compose-ui/api.html)
 
 ## Compose file format compatibility matrix
 
