@@ -12,6 +12,7 @@ import docker
 import requests
 from flask import Flask, jsonify, request
 from scripts.git_repo import git_pull, git_repo, GIT_YML_PATH
+from scripts.docker_bridge import container_ps, container_create, container_restart
 from scripts.bridge import ps_, get_project, get_container_from_id, get_yml_path, containers, project_config, info
 from scripts.find_files import find_yml_files, get_readme_file, get_logo_file
 from scripts.requires_auth import requires_auth, authentication_enabled, \
@@ -421,13 +422,41 @@ def enable_basic_authentication():
     set_authentication(data["username"], data["password"])
     return jsonify(enabled=True)
 
+@app.route(API_V1 + "container/ps", methods=['GET'])
+@requires_auth
+def list_container():
+    """
+    create new container
+    """
+    data = loads(request.data)
+    return jsonify(container_ps(data['name'], data))
+
+@app.route(API_V1 + "container/create", methods=['POST'])
+@requires_auth
+def create_container():
+    """
+    create new container
+    """
+    data = loads(request.data)
+    return jsonify(container_create(data['name'], data))
+
+@app.route(API_V1 + "container/restart", methods=['POST'])
+@requires_auth
+def restartcontainer():
+    """
+    restart container
+    """
+    data = loads(request.data)
+    return jsonify(container_restart(data['name']))
+
 # static resources
-@app.route("/")
-def index():
-    """
-    index.html
-    """
-    return app.send_static_file('index.html')
+
+# @app.route("/")
+# def index():
+#     """
+#     index.html
+#     """
+#     return app.send_static_file('index.html')
 
 ## basic exception handling
 
