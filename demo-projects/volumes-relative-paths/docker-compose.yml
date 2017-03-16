@@ -1,8 +1,0 @@
-version: '2'
-services:
-  alpine:
-    image: alpine
-    command: ls -la /tmp/
-    volumes:
-    - ./tmp/:/tmp/:ro
-
