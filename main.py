@@ -81,7 +81,7 @@ def project_containers(name):
     project = get_project_with_name(name)
     return jsonify(containers=ps_(project))
 
-@app.route(API_V1 + "projects/<project>/<service_id>", methods=['POST'])
+@app.route(API_V1 + "projects/<project>/<service_id>", methods=['POST', 'GET'])
 @requires_auth
 def run_service(project, service_id):
     """
@@ -188,7 +188,7 @@ def scale():
     project.get_service(service_name).scale(desired_num=int(num))
     return jsonify(command='scale')
 
-@app.route(API_V1 + "projects", methods=['POST'])
+@app.route(API_V1 + "projects", methods=['POST', 'GET'])
 @requires_auth
 def up_():
     """
@@ -209,7 +209,7 @@ def up_():
             'containers': [container.name for container in container_list]
         })
 
-@app.route(API_V1 + "build", methods=['POST'])
+@app.route(API_V1 + "build", methods=['POST', 'GET'])
 @requires_auth
 def build():
     """
@@ -225,7 +225,7 @@ def build():
 
     return jsonify(command='build')
 
-@app.route(API_V1 + "create-project", methods=['POST'])
+@app.route(API_V1 + "create-project", methods=['POST', 'GET'])
 @requires_auth
 def create_project():
     """
@@ -264,7 +264,7 @@ def remove_project(name):
     return jsonify(path=directory)
 
 
-@app.route(API_V1 + "search", methods=['POST'])
+@app.route(API_V1 + "search", methods=['POST', 'GET'])
 def search():
     """
     search for a project on www.composeregistry.com
@@ -280,7 +280,7 @@ def search():
         return result
 
 
-@app.route(API_V1 + "yml", methods=['POST'])
+@app.route(API_V1 + "yml", methods=['POST', 'GET'])
 def yml():
     """
     get yml content from www.composeregistry.com
@@ -291,7 +291,7 @@ def yml():
     return jsonify(response.json())
 
 
-@app.route(API_V2 + "create", methods=['POST'])
+@app.route(API_V2 + "create", methods=['POST', 'GET'])
 @requires_auth
 def create():
     """
@@ -301,7 +301,7 @@ def create():
     get_project_with_name(name).create()
     return jsonify(command='create')
 
-@app.route(API_V1 + "start", methods=['POST'])
+@app.route(API_V1 + "start", methods=['POST', 'GET'])
 @requires_auth
 def start():
     """
@@ -311,7 +311,7 @@ def start():
     get_project_with_name(name).start()
     return jsonify(command='start')
 
-@app.route(API_V1 + "stop", methods=['POST'])
+@app.route(API_V1 + "stop", methods=['POST', 'GET'])
 @requires_auth
 def stop():
     """
@@ -321,7 +321,7 @@ def stop():
     get_project_with_name(name).stop()
     return jsonify(command='stop')
 
-@app.route(API_V1 + "down", methods=['POST'])
+@app.route(API_V1 + "down", methods=['POST', 'GET'])
 @requires_auth
 def down():
     """
@@ -331,7 +331,7 @@ def down():
     get_project_with_name(name).down(ImageType.none, None)
     return jsonify(command='down')
 
-@app.route(API_V1 + "restart", methods=['POST'])
+@app.route(API_V1 + "restart", methods=['POST', 'GET'])
 @requires_auth
 def restart():
     """
@@ -381,7 +381,7 @@ def health():
     """
     return jsonify(info())
 
-@app.route(API_V1 + "host", methods=['POST'])
+@app.route(API_V1 + "host", methods=['POST', 'GET'])
 @requires_auth
 def set_host():
     """
@@ -412,7 +412,7 @@ def disable_basic_authentication():
     disable_authentication()
     return jsonify(enabled=False)
 
-@app.route(API_V1 + "authentication", methods=['POST'])
+@app.route(API_V1 + "authentication", methods=['POST', 'GET'])
 @requires_auth
 def enable_basic_authentication():
     """
@@ -431,7 +431,7 @@ def list_container():
     data = loads(request.data)
     return jsonify(container_ps(data['name'], data))
 
-@app.route(API_V1 + "container/create", methods=['POST'])
+@app.route(API_V1 + "container/create", methods=['POST', 'GET'])
 @requires_auth
 def create_container():
     """
@@ -440,7 +440,7 @@ def create_container():
     data = loads(request.data)
     return jsonify(container_create(data['name'], data))
 
-@app.route(API_V1 + "container/restart", methods=['POST'])
+@app.route(API_V1 + "container/restart", methods=['POST', 'GET'])
 @requires_auth
 def restartcontainer():
     """
