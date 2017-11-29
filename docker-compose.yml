@@ -1,15 +1,17 @@
 version: "2"
-
 services:
-    docker_compose_ui:
-        restart: always
-        image: francescou/docker-compose-ui:1.4.1
-        container_name: docker_compose_ui
-        hostname: docker_compose_ui
-        ports:
-            - 5000:5000
-        working_dir: /opt/docker-compose-projects/
-        #working_dir: /home/user/docker-compose-ui/demo-projects
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-            #- /home/user/docker-compose-ui/demo-projects:/home/user/docker-compose-ui/demo-projects
+  api:
+      image: netresearch/docker-compose-api
+      ports:
+        - 5000:5000
+      volumes:
+        - /srv/docker-compose-api/compose/:/srv/docker-compose-api/compose/
+        - /var/run/docker.sock:/var/run/docker.sock
+        - /home/root/.docker/config.json:/root/.docker/config.json:ro
+      environment:
+        - COMPOSE_USERNAME=apiuser
+        - COMPOSE_PASSWORD=apipassword
+      working_dir: /srv/docker-compose-api/compose/
+      restart: always
+      network_mode: "bridge"
+
