@@ -389,7 +389,7 @@ def set_host():
     """
     new_host = loads(request.data)["id"]
     if new_host is None:
-        if os.environ.has_key('DOCKER_HOST'):
+        if 'DOCKER_HOST' in os.environ:
             del os.environ['DOCKER_HOST']
         return jsonify()
     else:

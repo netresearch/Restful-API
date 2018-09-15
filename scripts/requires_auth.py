@@ -11,7 +11,7 @@ def authentication_enabled():
     """
     check if authentication is enabled
     """
-    return os.environ.has_key('COMPOSE_USERNAME') and os.environ.has_key('COMPOSE_PASSWORD')
+    return 'COMPOSE_USERNAME' in os.environ and 'COMPOSE_PASSWORD' in os.environ
 
 def disable_authentication():
     """
