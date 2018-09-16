@@ -4,6 +4,8 @@
 FROM python:3.7-alpine
 MAINTAINER Francesco Uliana <francesco@uliana.it>
 
+RUN apk add -U --no-cache git gcc musl-dev
+
 RUN pip install virtualenv
 
 RUN apk add -U --no-cache git

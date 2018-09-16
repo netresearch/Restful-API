@@ -32,11 +32,11 @@ def ps_(project):
     return items
 
 
-def get_container_from_id(client, container_id):
+async def get_container_from_id(client, container_id):
     """
     return the docker container from a given id
     """
-    return Container.from_id(client, container_id)
+    return await Container.from_id(client, container_id)
 
 def get_volumes(container):
     """
@@ -63,18 +63,18 @@ def get_project(path):
     project = compose_get_project(path, config_path)
     return project
 
-def containers():
+async def containers():
     """
     active containers
     """
-    return client().containers()
+    return await client().containers()
 
-def info():
-    info = client().info()
+async def info():
+    info = await client().info()
     return dict(info=info['ServerVersion'], name=info['Name'])
 
-def client():
-    return docker_client(Environment(), API_VERSIONS[V2_0])
+async def client():
+    return await docker_client(Environment(), API_VERSIONS[V2_0])
 
 def project_config(path):
     """

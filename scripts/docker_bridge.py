@@ -5,13 +5,15 @@ bridge to docker
 import logging
 import docker
 
+
 def container_ps():
     return docker.from_env().containers.list()
 
-def container_create(name, data):
+async def container_create(name, data):
     """
     create container
     """
+
     logging.info('create ' + data['image'])
 
     if 'command' not in data:
@@ -25,7 +27,7 @@ def container_create(name, data):
     if 'desktop' not in data:
         data['desktop'] = None
 
-    return docker.from_env().containers.create(
+    return await docker.from_env().containers.create(
         data['image'],
         command=data['command'],
         hostname=name,

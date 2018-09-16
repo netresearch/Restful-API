@@ -5,7 +5,8 @@ inspired by http://flask.pocoo.org/snippets/8/
 
 from functools import wraps
 import os
-from flask import request, Response
+#from flask import request, Response
+from quart import request, Response
 
 def authentication_enabled():
     """

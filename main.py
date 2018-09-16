@@ -10,7 +10,8 @@ from shutil import rmtree
 from compose.service import ImageType, BuildAction
 import docker
 import requests
-from flask import Flask, jsonify, request
+#from flask import Flask, jsonify, request
+from quart import Quart, jsonify, request
 from scripts.git_repo import git_pull, git_repo, GIT_YML_PATH
 from scripts.docker_bridge import container_ps, container_create, container_restart
 from scripts.bridge import ps_, get_project, get_container_from_id, get_yml_path, containers, project_config, info
@@ -25,7 +26,7 @@ API_V2 = '/api/v2/'
 YML_PATH = os.getenv('DOCKER_COMPOSE_UI_YML_PATH') \
   or '.'
 logging.basicConfig(level=logging.INFO)
-app = Flask(__name__, static_url_path='')
+app = Quart(__name__)
 
 def load_projects():
     """
@@ -165,11 +166,15 @@ def kill(name):
 
 @app.route(API_V1 + "projects", methods=['PUT'])
 @requires_auth
-def pull():
+async def pull():
     """
     docker-compose pull
     """
-    name = loads(request.data)["id"]
+    #name = loads(request.data)["id"]
+
+    data = await request.get_json()
+    name = data['id']
+
     get_project_with_name(name).pull()
     return jsonify(command='pull')
 
@@ -190,14 +195,18 @@ def scale():
 
 @app.route(API_V1 + "projects", methods=['POST', 'GET'])
 @requires_auth
-def up_():
+async def up_():
     """
     docker-compose up
     """
-    req = loads(request.data)
-    name = req["id"]
-    service_names = req.get('service_names', None)
-    do_build = BuildAction.force if req.get('do_build', False) else BuildAction.none
+    #req = await loads(request.data)
+    #name = req["id"]
+    data = await request.get_json()
+    name = data['id']
+    service_names = ''
+    #req.get('service_names', None)
+    do_build = False
+    #BuildAction.force if req.get('do_build', False) else BuildAction.none
 
     container_list = get_project_with_name(name).up(
         service_names=service_names,
@@ -323,11 +332,21 @@ def stop():
 
 @app.route(API_V1 + "down", methods=['POST', 'GET'])
 @requires_auth
-def down():
+async def down():
     """
     docker-compose down
     """
-    name = loads(request.data)["id"]
+    #name = loads(request.data)["id"]
+
+    #data = await request.get_data()
+
+    #name = await loads(data)
+
+    data = await request.get_json()
+    name = data['id']
+
+    #print(data)
+
     get_project_with_name(name).down(ImageType.none, None)
     return jsonify(command='down')
 
@@ -342,7 +361,7 @@ def restart():
     return jsonify(command='restart')
 
 @app.route(API_V1 + "logs/<name>", defaults={'limit': "all"}, methods=['GET'])
-@app.route(API_V1 + "logs/<name>/<int:limit>", methods=['GET'])
+#@app.route(API_V1 + "logs/<name>/<int:limit>", methods=['GET'])
 def logs(name, limit):
     """
     docker-compose logs
@@ -354,7 +373,7 @@ def logs(name, limit):
     return jsonify(logs=lines)
 
 @app.route(API_V1 + "logs/<name>/<container_id>", defaults={'limit': "all"}, methods=['GET'])
-@app.route(API_V1 + "logs/<name>/<container_id>/<int:limit>", methods=['GET'])
+#@app.route(API_V1 + "logs/<name>/<container_id>/<int:limit>", methods=['GET'])
 def container_logs(name, container_id, limit):
     """
     docker-compose logs of a specific container
@@ -484,4 +503,4 @@ def handle_generic_error(err):
 
 # run app
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=False, threaded=True)
+    app.run(host='0.0.0.0', debug=True)
