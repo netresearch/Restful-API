@@ -130,7 +130,7 @@ def get_project_logo(name):
     path = projects[name]
     return get_logo_file(path)
 
-@app.route(API_V1 + "projects/<name>/<container_id>", methods=['GET'])
+@app.route(API_V1 + "project/<name>/<container_id>", methods=['GET'])
 def project_container(name, container_id):
     """
     get container details

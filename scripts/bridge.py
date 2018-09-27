@@ -20,6 +20,7 @@ def ps_(project):
     containers = project.containers(stopped=True)
 
     items = [{
+        'id': container.id,
         'name': container.name,
         'name_without_project': container.name_without_project,
         'command': container.human_readable_command,
