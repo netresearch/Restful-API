@@ -12,7 +12,7 @@ import docker
 import requests
 from flask import Flask, jsonify, request
 from scripts.git_repo import git_pull, git_repo, GIT_YML_PATH
-from scripts.docker_bridge import container_ps, container_create, container_restart
+from scripts.docker_bridge import container_ps, container_create, container_restart, image_get
 from scripts.bridge import ps_, get_project, get_container_from_id, get_yml_path, containers, project_config, info
 from scripts.find_files import find_yml_files, get_readme_file, get_logo_file
 from scripts.requires_auth import requires_auth, authentication_enabled, \
@@ -448,6 +448,22 @@ def restartcontainer():
     """
     data = loads(request.data)
     return jsonify(container_restart(data['name']))
+
+
+@app.route(API_V1 + "images", methods=['POST','GET'])
+@requires_auth
+def imageget():
+    """
+    image get
+    """
+    data = loads(request.data)
+
+    image = image_get(data['name'])
+    return jsonify(
+        id = image.id,
+        name = data['name']
+    )
+
 
 # static resources
 

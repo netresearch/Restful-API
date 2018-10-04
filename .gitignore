@@ -63,3 +63,5 @@ target/
 
 # Visual Studio code
 .vscode/
+
+.idea/
