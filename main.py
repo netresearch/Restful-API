@@ -328,7 +328,7 @@ def down():
     docker-compose down
     """
     name = loads(request.data)["id"]
-    get_project_with_name(name).down(ImageType.none, None)
+    get_project_with_name(name).down(ImageType.none, True)
     return jsonify(command='down')
 
 @app.route(API_V1 + "restart", methods=['POST', 'GET'])
