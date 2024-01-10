@@ -1,5 +1,5 @@
 Flask==2.3.2
 docker-compose==1.11.2
-gitpython==3.1.37
+gitpython==3.1.41
 pyyaml>=4.2b1 # not directly required, pinned by Snyk to avoid a vulnerability
 requests>=2.31.0 # not directly required, pinned by Snyk to avoid a vulnerability
